@@ -31,7 +31,7 @@
     -webkit-font-smoothing:antialiased;
   }
 
-  /* ---------- Latar bintang ---------- */
+  /* ---------- Latar bintang global ---------- */
   .sky{
     position:fixed;
     inset:0;
@@ -53,61 +53,8 @@
     0%,100%{opacity:.12;transform:scale(.7);}
     50%{opacity:.95;transform:scale(1.15);}
   }
-  .shooting{
-    position:absolute;
-    width:170px;
-    height:2px;
-    border-radius:999px;
-    background:linear-gradient(90deg,transparent,#fef3c7,#fff);
-    animation:shooting 7s linear infinite;
-    opacity:0;
-  }
-  @keyframes shooting{
-    0%{transform:translate3d(0,0,0) rotate(-28deg);opacity:0;}
-    6%{opacity:1;}
-    100%{transform:translate3d(-620px,260px,0) rotate(-28deg);opacity:0;}
-  }
 
   .page{position:relative;z-index:1;}
-
-  /* ================= ANIMASI TAMBAHAN ================= */
-  @keyframes floaty {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-8px); }
-  }
-  @keyframes swaying {
-    0%, 100% { transform: rotate(-1.5deg); }
-    50% { transform: rotate(1.5deg); }
-  }
-  @keyframes floatSway {
-    0%, 100% { transform: translateY(0) rotate(-1.5deg); }
-    50% { transform: translateY(-8px) rotate(1.5deg); }
-  }
-  @keyframes bobbing {
-    0%, 100% { transform: translateY(-4px); }
-    50% { transform: translateY(4px); }
-  }
-  @keyframes glowPulse {
-    0% { box-shadow: 0 18px 45px rgba(0,0,0,0.35), 0 0 15px rgba(251,191,36,0.1); }
-    100% { box-shadow: 0 18px 45px rgba(0,0,0,0.35), 0 0 35px rgba(251,191,36,0.4); }
-  }
-  @keyframes textGlow {
-    0%, 100% { filter: drop-shadow(0 0 8px rgba(251,191,36,0.2)); }
-    50% { filter: drop-shadow(0 0 20px rgba(251,191,36,0.6)); }
-  }
-
-  .anim-float { animation: floaty 4s ease-in-out infinite; }
-  .anim-sway { animation: swaying 5s ease-in-out infinite; }
-  .anim-float-sway { animation: floatSway 6s ease-in-out infinite; }
-  .anim-bob { animation: bobbing 3.5s ease-in-out infinite; }
-  .anim-glow { animation: glowPulse 4s infinite alternate; }
-
-  /* Delay classes untuk variasi */
-  .d-1 { animation-delay: 0.4s !important; }
-  .d-2 { animation-delay: 0.8s !important; }
-  .d-3 { animation-delay: 1.2s !important; }
-  .d-4 { animation-delay: 1.6s !important; }
-  .d-5 { animation-delay: 2s !important; }
 
   /* ---------- Wadah ---------- */
   .wrap{
@@ -188,6 +135,180 @@
   .nav-links a:hover{color:var(--gold);}
   @media (min-width:900px){ .nav-links{display:flex;} }
 
+  /* ================= ANIMASI TEAM BLACK HOLE ================= */
+  .team-section {
+    position: relative;
+    padding: 4rem 0 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    min-height: 60vh;
+  }
+
+  .team-title {
+    text-align: center;
+    z-index: 10;
+    margin-bottom: 1rem;
+    animation: fadeUp 1s ease both;
+  }
+
+  .team-title h2 {
+    font-family: "Playfair Display", Georgia, serif;
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    color: var(--gold);
+    margin: 0;
+    text-shadow: 0 0 20px rgba(251,191,36,.5);
+  }
+  
+  .team-title p {
+    color: var(--muted);
+    font-size: .9rem;
+    margin-top: .5rem;
+    letter-spacing: 0.1em;
+  }
+
+  /* Panggung Black Hole */
+  .black-hole-stage {
+    position: relative;
+    width: 100%;
+    max-width: 600px;
+    height: 450px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 2rem;
+  }
+
+  /* Gambar Black Hole Asli */
+  .bh-image {
+    position: absolute;
+    width: 100%;
+    max-width: 450px; /* Ukuran maksimal gambar */
+    height: auto;
+    z-index: 4;
+    /* Trik agar latar hitam gambar hilang menyatu dengan background web */
+    mix-blend-mode: screen; 
+    animation: pulseImage 4s infinite alternate ease-in-out;
+    pointer-events: none; /* Agar tidak menghalangi klik pada teks */
+  }
+
+  @keyframes pulseImage {
+    0% { transform: scale(0.95); filter: drop-shadow(0 0 15px rgba(251,191,36,0.2)); opacity: 0.8; }
+    100% { transform: scale(1.05); filter: drop-shadow(0 0 40px rgba(251,191,36,0.7)); opacity: 1; }
+  }
+
+  /* --- ORBIT SYSTEM --- */
+  .orbit-system {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: spin 25s linear infinite;
+    z-index: 6;
+  }
+
+  /* Hentikan putaran saat mouse diarahkan ke area nama */
+  .orbit-system:hover {
+    animation-play-state: paused;
+  }
+
+  .orbit-node {
+    position: absolute;
+    /* Posisi melingkar berdasarkan variabel --angle */
+    transform: rotate(var(--angle)) translateX(170px);
+    transform-origin: center center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .orbit-spinner {
+    /* Berputar berlawanan arah agar teks selalu tegak */
+    --counter-angle: calc(var(--angle) * -1);
+    animation: counterSpin 25s linear infinite;
+    transform: rotate(var(--counter-angle));
+  }
+
+  .orbit-system:hover .orbit-spinner {
+    animation-play-state: paused;
+  }
+
+  /* Desain Kartu Nama */
+  .member-card {
+    background: rgba(8,13,26,0.85);
+    border: 1px solid rgba(251,191,36,0.4);
+    border-radius: 999px;
+    padding: 0.5rem 1.2rem;
+    color: #fff;
+    font-size: 0.85rem;
+    font-weight: 700;
+    white-space: nowrap;
+    box-shadow: 0 0 15px rgba(251,191,36,0.2);
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    /* Animasi Boom */
+    opacity: 0;
+    transform: scale(0);
+    animation: boomIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  }
+
+  .member-card.is-admin {
+    border-color: #34d399;
+    box-shadow: 0 0 20px rgba(52,211,153,0.3);
+  }
+  
+  .member-card.is-you {
+    border-color: #60a5fa;
+    box-shadow: 0 0 20px rgba(96,165,250,0.3);
+  }
+
+  .member-card span.badge {
+    font-size: 0.6rem;
+    padding: 0.1rem 0.4rem;
+    border-radius: 4px;
+    background: var(--gold);
+    color: #000;
+  }
+
+  /* Keyframes */
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  @keyframes counterSpin {
+    from { transform: rotate(var(--counter-angle)) rotate(0deg); }
+    to { transform: rotate(var(--counter-angle)) rotate(-360deg); }
+  }
+
+  @keyframes boomIn {
+    0% { opacity: 0; transform: scale(0) translateY(50px); filter: blur(5px); }
+    60% { opacity: 1; transform: scale(1.1) translateY(-5px); filter: blur(0); }
+    100% { opacity: 1; transform: scale(1) translateY(0); filter: blur(0); }
+  }
+
+  /* Delay untuk kemunculan nama */
+  .delay-1 { animation-delay: 1s !important; }
+  .delay-2 { animation-delay: 1.5s !important; }
+  .delay-3 { animation-delay: 2s !important; }
+  .delay-4 { animation-delay: 2.5s !important; }
+  .delay-5 { animation-delay: 3s !important; }
+  .delay-6 { animation-delay: 3.5s !important; }
+
+  @media (max-width: 640px) {
+    .black-hole-stage { height: 400px; }
+    .orbit-node { transform: rotate(var(--angle)) translateX(130px); } /* Perkecil radius di HP */
+    .member-card { font-size: 0.7rem; padding: 0.4rem 0.8rem; }
+    .bh-image { max-width: 320px; } /* Perkecil gambar di HP */
+  }
+  /* ========================================================= */
+
   /* ---------- Hero ---------- */
   .hero{
     padding-block:clamp(2.5rem,7vw,5rem) clamp(2rem,5vw,3.5rem);
@@ -236,6 +357,12 @@
     color:transparent;
     animation: textGlow 3s infinite alternate;
   }
+  
+  @keyframes textGlow {
+    0%, 100% { filter: drop-shadow(0 0 8px rgba(251,191,36,0.2)); }
+    50% { filter: drop-shadow(0 0 20px rgba(251,191,36,0.6)); }
+  }
+
   .hero-lead{
     margin-top:1.1rem;
     max-width:36rem;
@@ -301,6 +428,12 @@
     backdrop-filter:blur(14px);
     -webkit-backdrop-filter:blur(14px);
     border-radius:1.1rem;
+    animation: glowPulse 4s infinite alternate;
+  }
+
+  @keyframes glowPulse {
+    0% { box-shadow: 0 18px 45px rgba(0,0,0,0.35), 0 0 15px rgba(251,191,36,0.1); }
+    100% { box-shadow: 0 18px 45px rgba(0,0,0,0.35), 0 0 35px rgba(251,191,36,0.4); }
   }
 
   .id-card{padding:1.4rem;}
@@ -439,6 +572,7 @@
       linear-gradient(135deg,rgba(251,191,36,.12),rgba(251,191,36,.02));
     position:relative;
     overflow:hidden;
+    animation: floaty 5s ease-in-out infinite;
   }
   .visi-card::after{
     content:"”";
@@ -490,7 +624,7 @@
     background:rgba(251,191,36,.055);
     border-color:rgba(251,191,36,.5);
     box-shadow:0 10px 30px rgba(251,191,36,0.15);
-    animation-play-state: paused; /* Pause animasi saat di-hover agar mudah dibaca */
+    animation-play-state: paused;
   }
   .card-ico{
     width:2.4rem;
@@ -652,7 +786,7 @@
   .gallery-item:hover {
     border-color: rgba(251,191,36,.6);
     box-shadow: 0 10px 30px rgba(251,191,36,.15);
-    animation-play-state: paused; /* Hentikan animasi melayang saat disorot */
+    animation-play-state: paused;
   }
 
   .gallery-item img {
@@ -687,38 +821,22 @@
     color: var(--muted);
   }
 
-  /* ---------- Video Responsif ---------- */
-  .video-section {
-    margin-top: 2rem;
-    margin-bottom: 3rem;
-  }
-  .video-container {
-    position: relative;
-    padding-bottom: 56.25%; /* Rasio 16:9 */
-    height: 0;
-    overflow: hidden;
-    border-radius: 1rem;
-    border: 1px solid rgba(251,191,36,.3);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-    background: #000;
-  }
-  .video-container iframe,
-  .video-container video {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border: 0;
-    object-fit: cover;
-  }
-  .video-caption {
-    text-align: center;
-    margin-top: 1rem;
-    font-size: .9rem;
-    color: var(--muted);
-    font-style: italic;
-  }
+  /* Animasi Tambahan Galeri */
+  @keyframes floaty { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+  @keyframes swaying { 0%, 100% { transform: rotate(-1.5deg); } 50% { transform: rotate(1.5deg); } }
+  @keyframes floatSway { 0%, 100% { transform: translateY(0) rotate(-1.5deg); } 50% { transform: translateY(-8px) rotate(1.5deg); } }
+  @keyframes bobbing { 0%, 100% { transform: translateY(-4px); } 50% { transform: translateY(4px); } }
+
+  .anim-float { animation: floaty 4s ease-in-out infinite; }
+  .anim-sway { animation: swaying 5s ease-in-out infinite; }
+  .anim-float-sway { animation: floatSway 6s ease-in-out infinite; }
+  .anim-bob { animation: bobbing 3.5s ease-in-out infinite; }
+
+  .d-1 { animation-delay: 0.4s !important; }
+  .d-2 { animation-delay: 0.8s !important; }
+  .d-3 { animation-delay: 1.2s !important; }
+  .d-4 { animation-delay: 1.6s !important; }
+  .d-5 { animation-delay: 2s !important; }
 
   /* ---------- Footer ---------- */
   footer{
@@ -804,20 +922,98 @@
   <header class="nav">
     <div class="wrap nav-inner">
       <a class="brand" href="#atas">
+        <span class="crest">S1</span>
         <span class="brand-txt">
           <span class="brand-name">SMA Negeri 1 Prambon</span>
           <span class="brand-sub">Nganjuk · Jawa Timur</span>
         </span>
       </a>
       <nav class="nav-links" aria-label="Navigasi utama">
+        <a href="#kelompok">Tim Kami</a>
         <a href="#latar-belakang">Latar Belakang</a>
         <a href="#visi">Visi &amp; Program</a>
         <a href="#sejarah">Sejarah</a>
-        <a href="#galeri">Galeri &amp; Video</a>
+        <a href="#galeri">Galeri</a>
         <a href="#penelitian">Fokus Kajian</a>
       </nav>
     </div>
   </header>
+
+  <!-- ================= TEAM BLACK HOLE ================= -->
+  <section id="kelompok" class="team-section">
+    <div class="team-title">
+      <h2>Tim Peneliti Sejarah</h2>
+      <p>SMAN 1 Prambon</p>
+    </div>
+
+    <div class="black-hole-stage">
+      
+      <!-- Gambar Black Hole Asli -->
+      <!-- Pastikan kamu sudah menyimpan gambar dengan nama "blackhole.jpg" di folder yang sama -->
+      <img src="blackhole.png" alt="Black Hole" class="bh-image";>
+
+      <!-- ORBIT SYSTEM (Berputar) -->
+      <div class="orbit-system">
+        
+        <!-- Anggota 1: Aditya (Anda) -->
+        <div class="orbit-node" style="--angle: 0deg;">
+          <div class="orbit-spinner">
+            <div class="member-card is-you delay-1">
+              Aditya Fathan R. F. A.
+            </div>
+          </div>
+        </div>
+
+        <!-- Anggota 2: Salman (Admin) -->
+        <div class="orbit-node" style="--angle: 60deg;">
+          <div class="orbit-spinner">
+            <div class="member-card is-admin delay-2">
+              M. Salman Risqullah
+            </div>
+          </div>
+        </div>
+
+        <!-- Anggota 3: Dhevi -->
+        <div class="orbit-node" style="--angle: 120deg;">
+          <div class="orbit-spinner">
+            <div class="member-card delay-3">
+              Dhevi Puspitasari
+            </div>
+          </div>
+        </div>
+
+        <!-- Anggota 4: Isabella -->
+        <div class="orbit-node" style="--angle: 180deg;">
+          <div class="orbit-spinner">
+            <div class="member-card delay-4">
+              Isabella Anggraini N. A.
+            </div>
+          </div>
+        </div>
+
+        <!-- Anggota 5: Yahya -->
+        <div class="orbit-node" style="--angle: 240deg;">
+          <div class="orbit-spinner">
+            <div class="member-card delay-5">
+              Yahya Kevin Saputra
+            </div>
+          </div>
+        </div>
+
+        <!-- Anggota 6: Zahra -->
+        <div class="orbit-node" style="--angle: 300deg;">
+          <div class="orbit-spinner">
+            <div class="member-card delay-6">
+              Zahra Izza Aulia
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
 
   <!-- ================= HERO ================= -->
   <div id="atas" class="wrap">
@@ -851,7 +1047,7 @@
         </div>
       </div>
 
-      <aside class="glass id-card anim-glow">
+      <aside class="glass id-card">
         <h2>Identitas Sekolah</h2>
         <ul class="id-list">
           <li><span class="dt">Nama</span><span class="dd">SMA Negeri 1 Prambon</span></li>
@@ -950,7 +1146,7 @@
         <h2 class="sec-title">Arah pembentukan karakter dan penguasaan IPTEK</h2>
       </div>
 
-      <div class="visi-card fade-up anim-float">
+      <div class="visi-card fade-up">
         <span class="visi-label">Visi Sekolah</span>
         <p class="visi-text">
           Membentuk peserta didik yang berakhlak mulia, berprestasi dalam IPTEK,
@@ -1073,25 +1269,6 @@
         </p>
       </div>
 
-      <!-- ================= VIDEO PROFIL ================= 
-      <div class="video-section fade-up">
-        <!-- 
-          Ganti "ID_VIDEO_YOUTUBE" dengan ID video YouTube Anda.
-          Contoh: Jika link videonya https://www.youtube.com/watch?v=dQw4w9WgXcQ
-          Maka ID-nya adalah: dQw4w9WgXcQ
-        
-        <div class="video-container anim-glow">
-          <iframe 
-            src="https://www.youtube.com/embed/ID_VIDEO_YOUTUBE" 
-            title="Video Profil SMA Negeri 1 Prambon" 
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-            allowfullscreen>
-          </iframe>
-        </div>
-        <p class="video-caption">Video Profil & Dokumentasi Kegiatan SMA Negeri 1 Prambon</p>
-      </div>
-        -->
-
       <!-- Kategori 1: Fasilitas & Penghargaan -->
       <h3 class="gallery-category fade-up">Fasilitas &amp; Penghargaan</h3>
       <div class="gallery-grid fade-up">
@@ -1109,7 +1286,6 @@
             <p>Deretan piala dan penghargaan yang berhasil diraih peserta didik, bukti nyata dari visi berprestasi dalam IPTEK dan non-akademik.</p>
           </div>
         </div>
-          <!--
         <div class="gallery-item anim-bob d-2">
           <img src="lab-tik.jpg" alt="Gedung Lab TIK">
           <div class="gallery-info">
@@ -1117,7 +1293,6 @@
             <p>Sarana penunjang pembelajaran berbasis teknologi informasi untuk menghadapi era transformasi digital modern.</p>
           </div>
         </div>
-          -->
       </div>
 
       <!-- Kategori 2: Kegiatan & Wawancara -->
@@ -1125,19 +1300,35 @@
       <div class="gallery-grid fade-up">
         <div class="gallery-item anim-float-sway">
           <img src="wawancara1.jpg" alt="Kegiatan Wawancara 1">
+          <div class="gallery-info">
+            <h4>Dinamika Kegiatan Sekolah</h4>
+            <p>Interaksi aktif antara siswa dan tenaga pendidik, mencerminkan lingkungan belajar yang komunikatif.</p>
+          </div>
         </div>
         <div class="gallery-item anim-float d-1">
           <img src="wawancara2.jpg" alt="Kegiatan Wawancara 2">
+          <div class="gallery-info">
+            <h4>Diskusi &amp; Pembelajaran</h4>
+            <p>Suasana kebersamaan dan kekeluargaan dalam proses penggalian informasi di sekolah.</p>
+          </div>
         </div>
         <div class="gallery-item anim-sway d-2">
           <img src="wawancara3.jpg" alt="Kegiatan Wawancara 3">
+          <div class="gallery-info">
+            <h4>Interaksi Siswa &amp; Guru</h4>
+            <p>Wawancara dan penggalian informasi terkait sejarah dan program unggulan sekolah.</p>
+          </div>
         </div>
         <div class="gallery-item anim-bob d-3">
           <img src="wawancara4.jpg" alt="Kegiatan Wawancara 4">
+          <div class="gallery-info">
+            <h4>Kegiatan Kesiswaan</h4>
+            <p>Aktivitas keseharian siswa yang penuh semangat dan antusiasme.</p>
+          </div>
         </div>
       </div>
 
-      <!-- Kategori 3: Arsip Foto Lawas -->
+      <!-- Kategori 3: Arsip Foto Lawas (Tanpa foto ke-8) -->
       <h3 class="gallery-category fade-up">Arsip Sejarah (Masa Perintisan)</h3>
       <div class="gallery-grid fade-up" style="grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));">
         <div class="gallery-item anim-float"><img src="foto-lawas1.jpg" alt="Foto Lawas 1"></div>
@@ -1240,7 +1431,7 @@
       </div>
 
       <div class="foot-bottom">
-        <span>© <span id="year">2026</span> LucidSc1pt</span>
+        <span>© <span id="year">2025</span> SMA Negeri 1 Prambon · Nganjuk, Jawa Timur</span>
         <span>Profil &amp; kajian sejarah lokal</span>
       </div>
     </div>
@@ -1252,7 +1443,7 @@
 (function () {
   "use strict";
 
-  /* ---------- Bintang latar ---------- */
+  /* ---------- Bintang latar global ---------- */
   var sky = document.getElementById("sky");
 
   function spawnTwinkles(count) {
@@ -1272,20 +1463,7 @@
     sky.appendChild(frag);
   }
 
-  function spawnShooting(count) {
-    for (var i = 0; i < count; i++) {
-      var b = document.createElement("span");
-      b.className = "shooting";
-      b.style.left = (55 + Math.random() * 45).toFixed(2) + "%";
-      b.style.top = (Math.random() * 45).toFixed(2) + "%";
-      b.style.animationDelay = (Math.random() * 9).toFixed(2) + "s";
-      b.style.animationDuration = (6 + Math.random() * 4).toFixed(2) + "s";
-      sky.appendChild(b);
-    }
-  }
-
   spawnTwinkles(70);
-  spawnShooting(4);
 
   /* ---------- Animasi masuk saat di-scroll ---------- */
   var items = document.querySelectorAll(".fade-up");
