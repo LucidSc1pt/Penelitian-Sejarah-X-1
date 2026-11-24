@@ -1,0 +1,1315 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SMA Negeri 1 Prambon — Nganjuk, Jawa Timur</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;0,800;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --surface:#080d1a;
+    --gold:#fbbf24;
+    --gold-soft:#fcd34d;
+    --ink:#f8fafc;
+    --muted:#cbd5e1;
+    --line:rgba(255,255,255,.12);
+  }
+
+  *,*::before,*::after{box-sizing:border-box;}
+
+  html{scroll-behavior:smooth;scroll-padding-top:5rem;}
+
+  body{
+    margin:0;
+    background:var(--surface);
+    color:var(--ink);
+    font-family:"Plus Jakarta Sans",system-ui,sans-serif;
+    line-height:1.6;
+    overflow-x:clip;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* ---------- Latar bintang ---------- */
+  .sky{
+    position:fixed;
+    inset:0;
+    z-index:0;
+    pointer-events:none;
+    overflow:hidden;
+    background:
+      radial-gradient(900px 600px at 12% -8%, rgba(251,191,36,.10), transparent 60%),
+      radial-gradient(800px 700px at 88% 6%, rgba(59,130,246,.10), transparent 62%),
+      radial-gradient(1000px 800px at 50% 108%, rgba(251,191,36,.06), transparent 60%);
+  }
+  .twinkle{
+    position:absolute;
+    border-radius:999px;
+    background:#fde68a;
+    animation:twinkle 2.8s ease-in-out infinite;
+  }
+  @keyframes twinkle{
+    0%,100%{opacity:.12;transform:scale(.7);}
+    50%{opacity:.95;transform:scale(1.15);}
+  }
+  .shooting{
+    position:absolute;
+    width:170px;
+    height:2px;
+    border-radius:999px;
+    background:linear-gradient(90deg,transparent,#fef3c7,#fff);
+    animation:shooting 7s linear infinite;
+    opacity:0;
+  }
+  @keyframes shooting{
+    0%{transform:translate3d(0,0,0) rotate(-28deg);opacity:0;}
+    6%{opacity:1;}
+    100%{transform:translate3d(-620px,260px,0) rotate(-28deg);opacity:0;}
+  }
+
+  .page{position:relative;z-index:1;}
+
+  /* ================= ANIMASI TAMBAHAN ================= */
+  @keyframes floaty {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+  @keyframes swaying {
+    0%, 100% { transform: rotate(-1.5deg); }
+    50% { transform: rotate(1.5deg); }
+  }
+  @keyframes floatSway {
+    0%, 100% { transform: translateY(0) rotate(-1.5deg); }
+    50% { transform: translateY(-8px) rotate(1.5deg); }
+  }
+  @keyframes bobbing {
+    0%, 100% { transform: translateY(-4px); }
+    50% { transform: translateY(4px); }
+  }
+  @keyframes glowPulse {
+    0% { box-shadow: 0 18px 45px rgba(0,0,0,0.35), 0 0 15px rgba(251,191,36,0.1); }
+    100% { box-shadow: 0 18px 45px rgba(0,0,0,0.35), 0 0 35px rgba(251,191,36,0.4); }
+  }
+  @keyframes textGlow {
+    0%, 100% { filter: drop-shadow(0 0 8px rgba(251,191,36,0.2)); }
+    50% { filter: drop-shadow(0 0 20px rgba(251,191,36,0.6)); }
+  }
+
+  .anim-float { animation: floaty 4s ease-in-out infinite; }
+  .anim-sway { animation: swaying 5s ease-in-out infinite; }
+  .anim-float-sway { animation: floatSway 6s ease-in-out infinite; }
+  .anim-bob { animation: bobbing 3.5s ease-in-out infinite; }
+  .anim-glow { animation: glowPulse 4s infinite alternate; }
+
+  /* Delay classes untuk variasi */
+  .d-1 { animation-delay: 0.4s !important; }
+  .d-2 { animation-delay: 0.8s !important; }
+  .d-3 { animation-delay: 1.2s !important; }
+  .d-4 { animation-delay: 1.6s !important; }
+  .d-5 { animation-delay: 2s !important; }
+
+  /* ---------- Wadah ---------- */
+  .wrap{
+    width:100%;
+    max-width:72rem;
+    margin-inline:auto;
+    padding-inline:1.25rem;
+  }
+  @media (min-width:640px){ .wrap{padding-inline:1.5rem;} }
+
+  /* ---------- Navigasi ---------- */
+  .nav{
+    position:sticky;
+    top:0;
+    z-index:40;
+    background:rgba(8,13,26,.82);
+    backdrop-filter:blur(18px);
+    -webkit-backdrop-filter:blur(18px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-inner{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:1rem;
+    padding-block:.85rem;
+  }
+  .brand{
+    display:flex;
+    align-items:center;
+    gap:.7rem;
+    text-decoration:none;
+    color:inherit;
+    min-width:0;
+  }
+  .crest{
+    display:grid;
+    place-items:center;
+    width:2.5rem;
+    height:2.5rem;
+    flex:0 0 auto;
+    border-radius:.85rem;
+    background:linear-gradient(140deg,var(--gold-soft),#f59e0b);
+    color:#3b2403;
+    font-family:"Playfair Display",Georgia,serif;
+    font-weight:800;
+    font-size:.95rem;
+    letter-spacing:.02em;
+    box-shadow:0 0 28px rgba(251,191,36,.35);
+  }
+  .brand-txt{min-width:0;}
+  .brand-name{
+    font-family:"Playfair Display",Georgia,serif;
+    font-weight:700;
+    font-size:.98rem;
+    line-height:1.15;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+  .brand-sub{
+    font-size:.66rem;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:#94a3b8;
+  }
+  .nav-links{
+    display:none;
+    gap:1.6rem;
+    font-size:.85rem;
+    font-weight:600;
+  }
+  .nav-links a{
+    color:var(--muted);
+    text-decoration:none;
+    transition:color .2s ease;
+  }
+  .nav-links a:hover{color:var(--gold);}
+  @media (min-width:900px){ .nav-links{display:flex;} }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    padding-block:clamp(2.5rem,7vw,5rem) clamp(2rem,5vw,3.5rem);
+    display:grid;
+    gap:clamp(2rem,4vw,3rem);
+    align-items:start;
+  }
+  @media (min-width:1024px){
+    .hero{grid-template-columns:1.05fr .95fr;}
+  }
+
+  .eyebrow{
+    display:inline-flex;
+    align-items:center;
+    gap:.5rem;
+    padding:.35rem .8rem;
+    border-radius:999px;
+    border:1px solid rgba(251,191,36,.35);
+    background:rgba(251,191,36,.08);
+    color:var(--gold);
+    font-size:.68rem;
+    font-weight:700;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+  }
+  .dot{
+    width:.42rem;
+    height:.42rem;
+    border-radius:999px;
+    background:var(--gold);
+    box-shadow:0 0 12px rgba(251,191,36,.9);
+  }
+
+  .hero h1{
+    font-family:"Playfair Display",Georgia,serif;
+    font-weight:800;
+    font-size:clamp(2.25rem,6.5vw,4.2rem);
+    line-height:1.02;
+    letter-spacing:-.01em;
+    margin:1rem 0 0;
+  }
+  .gold-text{
+    background:linear-gradient(90deg,#fde68a,#f59e0b,#fde68a);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+    animation: textGlow 3s infinite alternate;
+  }
+  .hero-lead{
+    margin-top:1.1rem;
+    max-width:36rem;
+    color:var(--muted);
+    font-size:1.02rem;
+  }
+
+  .chips{
+    display:flex;
+    flex-wrap:wrap;
+    gap:.5rem;
+    margin-top:1.5rem;
+  }
+  .chip{
+    display:inline-flex;
+    align-items:center;
+    gap:.4rem;
+    padding:.42rem .8rem;
+    border-radius:999px;
+    background:rgba(255,255,255,.06);
+    border:1px solid var(--line);
+    font-size:.76rem;
+    font-weight:600;
+    color:var(--muted);
+  }
+  .chip b{color:var(--ink);font-weight:700;}
+
+  .cta-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:.7rem;
+    margin-top:1.9rem;
+  }
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    gap:.5rem;
+    padding:.78rem 1.3rem;
+    border-radius:.85rem;
+    font-size:.88rem;
+    font-weight:700;
+    text-decoration:none;
+    border:1px solid transparent;
+    transition:transform .25s ease,background .25s ease,box-shadow .25s ease;
+  }
+  .btn-gold{
+    background:var(--gold);
+    color:#1c1204;
+    box-shadow:0 0 45px rgba(251,191,36,.35);
+  }
+  .btn-gold:hover{background:var(--gold-soft);transform:translateY(-2px);}
+  .btn-ghost{
+    background:rgba(255,255,255,.05);
+    border-color:var(--line);
+    color:var(--ink);
+  }
+  .btn-ghost:hover{background:rgba(255,255,255,.12);transform:translateY(-2px);}
+
+  /* ---------- Kartu identitas ---------- */
+  .glass{
+    background:linear-gradient(135deg,rgba(255,255,255,.10),rgba(255,255,255,.03));
+    border:1px solid rgba(255,255,255,.14);
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
+    border-radius:1.1rem;
+  }
+
+  .id-card{padding:1.4rem;}
+  .id-card h2{
+    font-family:"Playfair Display",Georgia,serif;
+    font-size:1.05rem;
+    font-weight:700;
+    margin:0 0 1rem;
+    display:flex;
+    align-items:center;
+    gap:.55rem;
+  }
+  .id-card h2::before{
+    content:"";
+    width:.35rem;
+    height:1.05rem;
+    border-radius:99px;
+    background:linear-gradient(180deg,var(--gold-soft),#f59e0b);
+  }
+  .id-list{
+    list-style:none;
+    margin:0;
+    padding:0;
+    display:grid;
+    gap:.15rem;
+  }
+  .id-list li{
+    display:grid;
+    grid-template-columns:6.4rem 1fr;
+    gap:.9rem;
+    padding-block:.62rem;
+    border-top:1px solid rgba(255,255,255,.08);
+    font-size:.85rem;
+  }
+  .id-list li:first-child{border-top:0;}
+  .id-list dt{color:#94a3b8;font-weight:600;}
+  .id-list dd{margin:0;color:var(--ink);font-weight:600;}
+
+  .badge-a{
+    display:inline-flex;
+    align-items:center;
+    gap:.35rem;
+    padding:.15rem .55rem;
+    border-radius:.5rem;
+    background:rgba(52,211,153,.12);
+    border:1px solid rgba(52,211,153,.35);
+    color:#6ee7b7;
+    font-size:.72rem;
+    font-weight:800;
+    letter-spacing:.06em;
+  }
+
+  /* ---------- Statistik ---------- */
+  .stats{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:.75rem;
+    margin-top:1rem;
+  }
+  @media (min-width:768px){ .stats{grid-template-columns:repeat(4,minmax(0,1fr));} }
+  .stat{
+    padding:1rem;
+    border-radius:.9rem;
+    background:rgba(255,255,255,.045);
+    border:1px solid var(--line);
+  }
+  .stat-val{
+    font-family:"Playfair Display",Georgia,serif;
+    font-size:1.5rem;
+    font-weight:800;
+    color:var(--gold);
+    line-height:1.1;
+  }
+  .stat-lbl{
+    margin-top:.25rem;
+    font-size:.68rem;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:#94a3b8;
+    font-weight:700;
+  }
+
+  /* ---------- Section umum ---------- */
+  section{padding-block:clamp(2.6rem,6vw,4.5rem);}
+  .sec-head{max-width:44rem;}
+  .sec-eyebrow{
+    font-size:.68rem;
+    letter-spacing:.2em;
+    text-transform:uppercase;
+    font-weight:800;
+    color:var(--gold);
+    margin:0 0 .7rem;
+  }
+  .sec-title{
+    font-family:"Playfair Display",Georgia,serif;
+    font-size:clamp(1.6rem,4vw,2.5rem);
+    line-height:1.15;
+    font-weight:700;
+    margin:0;
+  }
+  .sec-desc{
+    margin-top:.9rem;
+    color:var(--muted);
+    font-size:.95rem;
+  }
+
+  .divider{
+    height:1px;
+    background:linear-gradient(90deg,transparent,rgba(251,191,36,.4),transparent);
+    border:0;
+    margin:0;
+  }
+
+  /* ---------- Latar belakang ---------- */
+  .prose{
+    display:grid;
+    gap:1rem;
+    margin-top:2rem;
+    max-width:52rem;
+  }
+  .prose p{
+    margin:0;
+    color:var(--muted);
+    font-size:.97rem;
+    line-height:1.85;
+  }
+  .prose p strong{color:var(--ink);font-weight:700;}
+
+  /* ---------- Visi ---------- */
+  .visi-card{
+    margin-top:2rem;
+    padding:clamp(1.4rem,3vw,2.2rem);
+    border-radius:1.1rem;
+    border:1px solid rgba(251,191,36,.3);
+    background:
+      linear-gradient(135deg,rgba(251,191,36,.12),rgba(251,191,36,.02));
+    position:relative;
+    overflow:hidden;
+  }
+  .visi-card::after{
+    content:"”";
+    position:absolute;
+    right:1.2rem;
+    bottom:-2.6rem;
+    font-family:"Playfair Display",Georgia,serif;
+    font-size:11rem;
+    line-height:1;
+    color:rgba(251,191,36,.14);
+    pointer-events:none;
+  }
+  .visi-label{
+    font-size:.68rem;
+    letter-spacing:.2em;
+    text-transform:uppercase;
+    font-weight:800;
+    color:var(--gold);
+  }
+  .visi-text{
+    margin:.7rem 0 0;
+    font-family:"Playfair Display",Georgia,serif;
+    font-size:clamp(1.1rem,2.5vw,1.55rem);
+    line-height:1.45;
+    font-weight:600;
+    max-width:40rem;
+    position:relative;
+    z-index:1;
+  }
+
+  /* ---------- Program unggulan (Cards) ---------- */
+  .cards{
+    display:grid;
+    gap:1.2rem;
+    margin-top:2rem;
+    grid-template-columns:repeat(1,minmax(0,1fr));
+  }
+  @media (min-width:640px){ .cards{grid-template-columns:repeat(2,minmax(0,1fr));} }
+  @media (min-width:1024px){ .cards{grid-template-columns:repeat(3,minmax(0,1fr));} }
+
+  .card{
+    padding:1.25rem;
+    border-radius:1rem;
+    background:rgba(255,255,255,.04);
+    border:1px solid var(--line);
+    transition:background .3s ease,border-color .3s ease,box-shadow .3s ease;
+  }
+  .card:hover{
+    background:rgba(251,191,36,.055);
+    border-color:rgba(251,191,36,.5);
+    box-shadow:0 10px 30px rgba(251,191,36,0.15);
+    animation-play-state: paused; /* Pause animasi saat di-hover agar mudah dibaca */
+  }
+  .card-ico{
+    width:2.4rem;
+    height:2.4rem;
+    display:grid;
+    place-items:center;
+    border-radius:.7rem;
+    background:rgba(251,191,36,.14);
+    border:1px solid rgba(251,191,36,.3);
+    color:var(--gold);
+    font-size:1rem;
+    margin-bottom:.85rem;
+  }
+  .card h3{
+    margin:0 0 .4rem;
+    font-size:.98rem;
+    font-weight:700;
+  }
+  .card p{
+    margin:0;
+    font-size:.85rem;
+    color:var(--muted);
+    line-height:1.65;
+  }
+
+  /* ---------- Timeline ---------- */
+  .timeline{
+    margin-top:2.4rem;
+    position:relative;
+    padding-left:1.9rem;
+  }
+  .timeline::before{
+    content:"";
+    position:absolute;
+    left:.48rem;
+    top:.4rem;
+    bottom:.4rem;
+    width:2px;
+    background:linear-gradient(180deg,rgba(251,191,36,.75),rgba(251,191,36,.12));
+  }
+  .tl-item{position:relative;padding-bottom:1.9rem;}
+  .tl-item:last-child{padding-bottom:0;}
+  .tl-item::before{
+    content:"";
+    position:absolute;
+    left:-1.9rem;
+    top:.42rem;
+    width:.72rem;
+    height:.72rem;
+    border-radius:999px;
+    background:var(--gold);
+    box-shadow:0 0 0 4px rgba(8,13,26,1),0 0 18px rgba(251,191,36,.8);
+  }
+  .tl-year{
+    font-size:.7rem;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    font-weight:800;
+    color:var(--gold);
+  }
+  .tl-item h3{
+    margin:.25rem 0 .35rem;
+    font-family:"Playfair Display",Georgia,serif;
+    font-size:1.08rem;
+    font-weight:700;
+  }
+  .tl-item p{
+    margin:0;
+    color:var(--muted);
+    font-size:.9rem;
+    line-height:1.7;
+    max-width:44rem;
+  }
+
+  /* ---------- Fokus penelitian ---------- */
+  .focus-grid{
+    display:grid;
+    gap:.9rem;
+    margin-top:2rem;
+    grid-template-columns:repeat(1,minmax(0,1fr));
+  }
+  @media (min-width:768px){ .focus-grid{grid-template-columns:repeat(2,minmax(0,1fr));} }
+
+  .focus{
+    padding:1.2rem 1.25rem;
+    border-radius:.95rem;
+    border:1px solid var(--line);
+    background:rgba(255,255,255,.035);
+    display:flex;
+    gap:.9rem;
+    align-items:flex-start;
+  }
+  .focus-num{
+    flex:0 0 auto;
+    width:1.9rem;
+    height:1.9rem;
+    display:grid;
+    place-items:center;
+    border-radius:.55rem;
+    background:rgba(251,191,36,.14);
+    border:1px solid rgba(251,191,36,.3);
+    color:var(--gold);
+    font-size:.78rem;
+    font-weight:800;
+  }
+  .focus p{
+    margin:0;
+    font-size:.88rem;
+    line-height:1.7;
+    color:var(--muted);
+  }
+  .focus p b{color:var(--ink);}
+
+  .note{
+    margin-top:1.4rem;
+    padding:1rem 1.2rem;
+    border-radius:.9rem;
+    border:1px solid rgba(251,191,36,.28);
+    background:rgba(251,191,36,.06);
+    font-size:.86rem;
+    line-height:1.7;
+    color:#fde68a;
+  }
+
+  /* ---------- Galeri & Foto ---------- */
+  .gallery-category {
+    font-family: "Playfair Display", Georgia, serif;
+    font-size: 1.3rem;
+    color: var(--gold);
+    margin-top: 3rem;
+    margin-bottom: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .gallery-category::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(251,191,36,0.4), transparent);
+  }
+
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  .gallery-item {
+    border-radius: 1rem;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    background: rgba(8,13,26,.8);
+    display: flex;
+    flex-direction: column;
+    transition: border-color .3s ease, box-shadow .3s ease;
+  }
+  
+  .gallery-item:hover {
+    border-color: rgba(251,191,36,.6);
+    box-shadow: 0 10px 30px rgba(251,191,36,.15);
+    animation-play-state: paused; /* Hentikan animasi melayang saat disorot */
+  }
+
+  .gallery-item img {
+    width: 100%;
+    aspect-ratio: 4/3;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease, opacity 0.4s ease;
+  }
+  
+  .gallery-item:hover img {
+    transform: scale(1.08);
+    opacity: 0.9;
+  }
+  
+  .gallery-info {
+    padding: 1rem;
+    background: rgba(8,13,26,.9);
+    border-top: 1px solid var(--line);
+  }
+  
+  .gallery-info h4 {
+    margin: 0 0 .3rem;
+    font-size: .95rem;
+    color: var(--gold);
+    font-family: "Playfair Display", Georgia, serif;
+  }
+  
+  .gallery-info p {
+    margin: 0;
+    font-size: .8rem;
+    color: var(--muted);
+  }
+
+  /* ---------- Video Responsif ---------- */
+  .video-section {
+    margin-top: 2rem;
+    margin-bottom: 3rem;
+  }
+  .video-container {
+    position: relative;
+    padding-bottom: 56.25%; /* Rasio 16:9 */
+    height: 0;
+    overflow: hidden;
+    border-radius: 1rem;
+    border: 1px solid rgba(251,191,36,.3);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    background: #000;
+  }
+  .video-container iframe,
+  .video-container video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    object-fit: cover;
+  }
+  .video-caption {
+    text-align: center;
+    margin-top: 1rem;
+    font-size: .9rem;
+    color: var(--muted);
+    font-style: italic;
+  }
+
+  /* ---------- Footer ---------- */
+  footer{
+    border-top:1px solid var(--line);
+    padding-block:2.2rem;
+    background:rgba(255,255,255,.02);
+  }
+  .foot-grid{
+    display:grid;
+    gap:1.4rem;
+    grid-template-columns:1fr;
+  }
+  @media (min-width:768px){ .foot-grid{grid-template-columns:1.4fr 1fr 1fr;} }
+  .foot-title{
+    font-family:"Playfair Display",Georgia,serif;
+    font-size:1.05rem;
+    font-weight:700;
+    margin:0 0 .5rem;
+  }
+  .foot-txt{
+    margin:0;
+    font-size:.83rem;
+    color:#94a3b8;
+    line-height:1.75;
+  }
+  .foot-head{
+    font-size:.66rem;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    font-weight:800;
+    color:var(--gold);
+    margin:0 0 .6rem;
+  }
+  .foot-list{
+    list-style:none;
+    margin:0;
+    padding:0;
+    display:grid;
+    gap:.4rem;
+    font-size:.83rem;
+    color:#94a3b8;
+  }
+  .foot-bottom{
+    margin-top:1.8rem;
+    padding-top:1.2rem;
+    border-top:1px solid rgba(255,255,255,.08);
+    font-size:.75rem;
+    color:#64748b;
+    display:flex;
+    flex-wrap:wrap;
+    gap:.5rem;
+    justify-content:space-between;
+  }
+
+  /* ---------- Animasi masuk (Fade Up) ---------- */
+  .fade-up{
+    opacity:0;
+    transform:translateY(16px);
+    transition:opacity .6s ease,transform .6s ease;
+  }
+  .fade-up.in{opacity:1;transform:none;}
+
+  @media (prefers-reduced-motion:reduce){
+    *{animation:none!important;transition:none!important;}
+    .fade-up{opacity:1;transform:none;}
+    html{scroll-behavior:auto;}
+  }
+
+  a:focus-visible,button:focus-visible{
+    outline:2px solid var(--gold);
+    outline-offset:3px;
+    border-radius:.4rem;
+  }
+</style>
+</head>
+<body>
+
+<div class="sky" id="sky" aria-hidden="true"></div>
+
+<div class="page">
+
+  <!-- ================= NAVIGASI ================= -->
+  <header class="nav">
+    <div class="wrap nav-inner">
+      <a class="brand" href="#atas">
+        <span class="brand-txt">
+          <span class="brand-name">SMA Negeri 1 Prambon</span>
+          <span class="brand-sub">Nganjuk · Jawa Timur</span>
+        </span>
+      </a>
+      <nav class="nav-links" aria-label="Navigasi utama">
+        <a href="#latar-belakang">Latar Belakang</a>
+        <a href="#visi">Visi &amp; Program</a>
+        <a href="#sejarah">Sejarah</a>
+        <a href="#galeri">Galeri &amp; Video</a>
+        <a href="#penelitian">Fokus Kajian</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ================= HERO ================= -->
+  <div id="atas" class="wrap">
+    <div class="hero">
+
+      <div>
+        <span class="eyebrow"><span class="dot"></span> Sejak 29 April 1994 · Akreditasi A</span>
+
+        <h1>
+          SMA Negeri 1<br>
+          <span class="gold-text">Prambon</span>
+        </h1>
+
+        <p class="hero-lead">
+          Lembaga pendidikan sekolah menengah atas negeri di Kabupaten Nganjuk yang
+          lahir dari kebijakan pendidikan Jawa Timur dan diresmikan oleh Gubernur
+          Basofi Soedirman. Berdiri di jalur pinggiran, tumbuh sebagai bagian dari
+          dinamika sosial masyarakat sekitarnya.
+        </p>
+
+        <div class="chips">
+          <span class="chip">📍 <b>Jl. Ahmad Yani No. 1</b></span>
+          <span class="chip">🏫 Desa Sugihwaras, Prambon</span>
+          <span class="chip">🗺️ Kabupaten Nganjuk</span>
+          <span class="chip">🎓 <b>Terakreditasi A</b></span>
+        </div>
+
+        <div class="cta-row">
+          <a class="btn btn-gold" href="#latar-belakang">Baca Latar Belakang →</a>
+          <a class="btn btn-ghost" href="#sejarah">Jejak Sejarah</a>
+        </div>
+      </div>
+
+      <aside class="glass id-card anim-glow">
+        <h2>Identitas Sekolah</h2>
+        <ul class="id-list">
+          <li><span class="dt">Nama</span><span class="dd">SMA Negeri 1 Prambon</span></li>
+          <li><span class="dt">Jenjang</span><span class="dd">Sekolah Menengah Atas (SMA)</span></li>
+          <li><span class="dt">Status</span><span class="dd">Negeri</span></li>
+          <li><span class="dt">Akreditasi</span><span class="dd"><span class="badge-a">★ A</span></span></li>
+          <li><span class="dt">Berdiri</span><span class="dd">29 April 1994</span></li>
+          <li><span class="dt">Diresmikan</span><span class="dd">Gubernur Basofi Soedirman</span></li>
+          <li><span class="dt">Alamat</span><span class="dd">Jl. Ahmad Yani No. 1, Desa Sugihwaras</span></li>
+          <li><span class="dt">Kecamatan</span><span class="dd">Prambon</span></li>
+          <li><span class="dt">Kabupaten</span><span class="dd">Nganjuk</span></li>
+          <li><span class="dt">Provinsi</span><span class="dd">Jawa Timur</span></li>
+        </ul>
+      </aside>
+
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ================= LATAR BELAKANG ================= -->
+  <section id="latar-belakang">
+    <div class="wrap">
+      <div class="sec-head fade-up">
+        <p class="sec-eyebrow">Latar Belakang</p>
+        <h2 class="sec-title">Pendidikan sebagai usaha sadar dan terencana</h2>
+        <p class="sec-desc">
+          Landasan konstitusional dan konteks sosiologis berdirinya sebuah sekolah
+          menengah atas di wilayah Kabupaten Nganjuk.
+        </p>
+      </div>
+
+      <div class="prose fade-up">
+        <p>
+          Pendidikan merupakan usaha sadar dan terencana untuk mengembangkan potensi
+          peserta didik agar menjadi manusia yang <strong>beriman dan bertakwa,
+          berakhlak mulia, berilmu, mandiri, dan bertanggung jawab</strong>, sebagaimana
+          diamanatkan dalam Undang-Undang Nomor 20 Tahun 2003 tentang Sistem Pendidikan
+          Nasional. Dalam upaya mewujudkan tujuan tersebut, Sekolah Menengah Atas
+          memiliki peran yang sangat strategis karena pada jenjang ini peserta didik
+          berada pada masa pembentukan karakter dan penguasaan ilmu pengetahuan dan
+          teknologi.
+        </p>
+        <p>
+          Oleh karena itu, sekolah dituntut mampu menciptakan proses pembelajaran yang
+          <strong>aktif, inovatif, dan menyenangkan</strong> serta didukung oleh
+          lingkungan sekolah yang kondusif dalam rangka menumbuhkan Profil Pelajar
+          Pancasila.
+        </p>
+        <p>
+          SMA Negeri 1 Prambon merupakan salah satu sekolah menengah atas negeri yang
+          terletak di Jl. Ahmad Yani No. 1, Desa Sugihwaras, Kecamatan Prambon,
+          Kabupaten Nganjuk, Provinsi Jawa Timur. Sekolah yang berdiri sejak
+          <strong>29 April 1994</strong> dan telah terakreditasi <strong>A</strong> ini
+          memiliki visi untuk membentuk peserta didik yang berakhlak mulia, berprestasi
+          dalam IPTEK, serta mandiri berdasarkan iman dan takwa.
+        </p>
+        <p>
+          Visi tersebut diwujudkan melalui berbagai program unggulan, seperti
+          implementasi Kurikulum Merdeka, Sekolah Adiwiyata, Sekolah Ramah Anak, serta
+          program pembiasaan keagamaan seperti kelas tahfidz dan Majelis Ta'lim. Namun
+          dalam pelaksanaannya, masih ditemukan berbagai permasalahan di lapangan yang
+          belum sesuai dengan harapan ideal sekolah, sehingga perlu dilakukan penelitian
+          secara mendalam untuk mengkaji pelaksanaan program tersebut di SMAN 1 Prambon.
+        </p>
+      </div>
+
+      <div class="stats fade-up">
+        <div class="stat">
+          <div class="stat-val">1994</div>
+          <div class="stat-lbl">Tahun Berdiri</div>
+        </div>
+        <div class="stat">
+          <div class="stat-val">A</div>
+          <div class="stat-lbl">Peringkat Akreditasi</div>
+        </div>
+        <div class="stat">
+          <div class="stat-val">5+</div>
+          <div class="stat-lbl">Program Unggulan</div>
+        </div>
+        <div class="stat">
+          <div class="stat-val">Nganjuk</div>
+          <div class="stat-lbl">Kabupaten</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ================= VISI & PROGRAM ================= -->
+  <section id="visi">
+    <div class="wrap">
+      <div class="sec-head fade-up">
+        <p class="sec-eyebrow">Visi &amp; Program Unggulan</p>
+        <h2 class="sec-title">Arah pembentukan karakter dan penguasaan IPTEK</h2>
+      </div>
+
+      <div class="visi-card fade-up anim-float">
+        <span class="visi-label">Visi Sekolah</span>
+        <p class="visi-text">
+          Membentuk peserta didik yang berakhlak mulia, berprestasi dalam IPTEK,
+          serta mandiri berdasarkan iman dan takwa.
+        </p>
+      </div>
+
+      <div class="cards fade-up">
+        <article class="card anim-float">
+          <div class="card-ico">📘</div>
+          <h3>Kurikulum Merdeka</h3>
+          <p>Implementasi kurikulum yang memberi ruang pada pembelajaran berdiferensiasi
+             dan penguatan karakter sesuai Profil Pelajar Pancasila.</p>
+        </article>
+
+        <article class="card anim-sway d-1">
+          <div class="card-ico">🌿</div>
+          <h3>Sekolah Adiwiyata</h3>
+          <p>Program sekolah peduli dan berbudaya lingkungan, mendorong kesadaran
+             ekologis peserta didik dalam keseharian di sekolah.</p>
+        </article>
+
+        <article class="card anim-bob d-2">
+          <div class="card-ico">🤝</div>
+          <h3>Sekolah Ramah Anak</h3>
+          <p>Mewujudkan lingkungan belajar yang aman, nyaman, dan menghargai hak
+             serta tumbuh kembang setiap peserta didik.</p>
+        </article>
+
+        <article class="card anim-float-sway d-3">
+          <div class="card-ico">🕌</div>
+          <h3>Kelas Tahfidz</h3>
+          <p>Program pembiasaan keagamaan untuk penguatan hafalan Al-Qur'an sebagai
+             bagian dari pembentukan akhlak mulia.</p>
+        </article>
+
+        <article class="card anim-float d-4">
+          <div class="card-ico">📖</div>
+          <h3>Majelis Ta'lim</h3>
+          <p>Kegiatan kajian keagamaan rutin yang menumbuhkan karakter beriman,
+             bertakwa, dan bertanggung jawab.</p>
+        </article>
+
+        <article class="card anim-sway d-5">
+          <div class="card-ico">🔬</div>
+          <h3>Prestasi IPTEK</h3>
+          <p>Dorongan penguasaan ilmu pengetahuan dan teknologi sebagai bekal
+             kemandirian peserta didik di jenjang berikutnya.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ================= SEJARAH ================= -->
+  <section id="sejarah">
+    <div class="wrap">
+      <div class="sec-head fade-up">
+        <p class="sec-eyebrow">Jejak Sejarah</p>
+        <h2 class="sec-title">Dari perintisan menuju era digital</h2>
+        <p class="sec-desc">
+          Sebuah lembaga pendidikan pinggiran yang mampu beradaptasi sejak masa
+          perintisan, melewati krisis ekonomi nasional, hingga memasuki era
+          transformasi digital modern.
+        </p>
+      </div>
+
+      <div class="timeline fade-up">
+        <div class="tl-item">
+          <div class="tl-year">1994</div>
+          <h3>Peresmian Sekolah</h3>
+          <p>
+            SMA Negeri 1 Prambon didirikan atas kebijakan pendidikan Jawa Timur dan
+            diresmikan pada 29 April 1994 oleh Gubernur Basofi Soedirman.
+          </p>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-year">Masa Perintisan</div>
+          <h3>Adaptasi di Wilayah Pinggiran</h3>
+          <p>
+            Sebagai lembaga pendidikan di wilayah pinggiran Kabupaten Nganjuk, sekolah
+            menyesuaikan diri dengan kondisi sosial dan kebutuhan masyarakat sekitarnya.
+          </p>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-year">Krisis Ekonomi Nasional</div>
+          <h3>Bertahan dan Menyesuaikan Diri</h3>
+          <p>
+            Sekolah melewati masa krisis ekonomi nasional, menunjukkan daya tahan
+            lembaga pendidikan lokal dalam menjaga keberlangsungan pembelajaran.
+          </p>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-year">Era Transformasi Digital</div>
+          <h3>Menuju Pembelajaran Modern</h3>
+          <p>
+            Memasuki era transformasi digital modern, sekolah menata diri melalui
+            implementasi Kurikulum Merdeka dan penguatan program-program unggulan.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ================= GALERI & DOKUMENTASI ================= -->
+  <section id="galeri">
+    <div class="wrap">
+      <div class="sec-head fade-up">
+        <p class="sec-eyebrow">Galeri &amp; Dokumentasi</p>
+        <h2 class="sec-title">Potret nyata dari lingkungan sekolah</h2>
+        <p class="sec-desc">
+          Fasilitas, prestasi, dan kegiatan warga sekolah yang merepresentasikan
+          dinamika pendidikan di SMA Negeri 1 Prambon.
+        </p>
+      </div>
+
+      <!-- ================= VIDEO PROFIL ================= 
+      <div class="video-section fade-up">
+        <!-- 
+          Ganti "ID_VIDEO_YOUTUBE" dengan ID video YouTube Anda.
+          Contoh: Jika link videonya https://www.youtube.com/watch?v=dQw4w9WgXcQ
+          Maka ID-nya adalah: dQw4w9WgXcQ
+        
+        <div class="video-container anim-glow">
+          <iframe 
+            src="https://www.youtube.com/embed/ID_VIDEO_YOUTUBE" 
+            title="Video Profil SMA Negeri 1 Prambon" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            allowfullscreen>
+          </iframe>
+        </div>
+        <p class="video-caption">Video Profil & Dokumentasi Kegiatan SMA Negeri 1 Prambon</p>
+      </div>
+        -->
+
+      <!-- Kategori 1: Fasilitas & Penghargaan -->
+      <h3 class="gallery-category fade-up">Fasilitas &amp; Penghargaan</h3>
+      <div class="gallery-grid fade-up">
+        <div class="gallery-item anim-float-sway">
+          <img src="prasasti.jpg" alt="Prasasti Peresmian">
+          <div class="gallery-info">
+            <h4>Prasasti Peresmian</h4>
+            <p>Ditandatangani langsung oleh Gubernur KDH. TK. I Jawa Timur, H.M. Basofi Soedirman pada 29 April 1994.</p>
+          </div>
+        </div>
+        <div class="gallery-item anim-sway d-1">
+          <img src="trofi.jpg" alt="Lemari Trofi dan Piala Prestasi">
+          <div class="gallery-info">
+            <h4>Galeri Prestasi</h4>
+            <p>Deretan piala dan penghargaan yang berhasil diraih peserta didik, bukti nyata dari visi berprestasi dalam IPTEK dan non-akademik.</p>
+          </div>
+        </div>
+          <!--
+        <div class="gallery-item anim-bob d-2">
+          <img src="lab-tik.jpg" alt="Gedung Lab TIK">
+          <div class="gallery-info">
+            <h4>Fasilitas Lab TIK</h4>
+            <p>Sarana penunjang pembelajaran berbasis teknologi informasi untuk menghadapi era transformasi digital modern.</p>
+          </div>
+        </div>
+          -->
+      </div>
+
+      <!-- Kategori 2: Kegiatan & Wawancara -->
+      <h3 class="gallery-category fade-up">Kegiatan &amp; Wawancara</h3>
+      <div class="gallery-grid fade-up">
+        <div class="gallery-item anim-float-sway">
+          <img src="wawancara1.jpg" alt="Kegiatan Wawancara 1">
+        </div>
+        <div class="gallery-item anim-float d-1">
+          <img src="wawancara2.jpg" alt="Kegiatan Wawancara 2">
+        </div>
+        <div class="gallery-item anim-sway d-2">
+          <img src="wawancara3.jpg" alt="Kegiatan Wawancara 3">
+        </div>
+        <div class="gallery-item anim-bob d-3">
+          <img src="wawancara4.jpg" alt="Kegiatan Wawancara 4">
+        </div>
+      </div>
+
+      <!-- Kategori 3: Arsip Foto Lawas -->
+      <h3 class="gallery-category fade-up">Arsip Sejarah (Masa Perintisan)</h3>
+      <div class="gallery-grid fade-up" style="grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));">
+        <div class="gallery-item anim-float"><img src="foto-lawas1.jpg" alt="Foto Lawas 1"></div>
+        <div class="gallery-item anim-sway d-1"><img src="foto-lawas2.jpg" alt="Foto Lawas 2"></div>
+        <div class="gallery-item anim-bob d-2"><img src="foto-lawas3.jpg" alt="Foto Lawas 3"></div>
+        <div class="gallery-item anim-float-sway d-3"><img src="foto-lawas4.jpg" alt="Foto Lawas 4"></div>
+        <div class="gallery-item anim-float d-4"><img src="foto-lawas5.jpg" alt="Foto Lawas 5"></div>
+        <div class="gallery-item anim-sway d-5"><img src="foto-lawas6.jpg" alt="Foto Lawas 6"></div>
+        <div class="gallery-item anim-bob"><img src="foto-lawas7.jpg" alt="Foto Lawas 7"></div>
+      </div>
+
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ================= FOKUS KAJIAN ================= -->
+  <section id="penelitian">
+    <div class="wrap">
+      <div class="sec-head fade-up">
+        <p class="sec-eyebrow">Rumusan Masalah</p>
+        <h2 class="sec-title">Mengapa sejarah sekolah lokal penting dikaji?</h2>
+        <p class="sec-desc">
+          Penelitian sejarah mengenai instansi pendidikan lokal memegang peranan penting
+          dalam merekonstruksi dinamika sosial masyarakat di suatu wilayah. Melalui
+          sejarah lokal, kita dapat memahami bagaimana sebuah lembaga pendidikan lahir,
+          berkembang, dan beradaptasi dengan masyarakat di sekitarnya.
+        </p>
+      </div>
+
+      <div class="focus-grid fade-up">
+        <div class="focus">
+          <span class="focus-num">01</span>
+          <p><b>Sejarah lokal sebagai cermin.</b> Bagaimana SMAN 1 Prambon merefleksikan
+             dinamika sosial masyarakat Kabupaten Nganjuk?</p>
+        </div>
+
+        <div class="focus">
+          <span class="focus-num">02</span>
+          <p><b>Rekonstruksi lembaga.</b> Bagaimana proses kelahiran, perkembangan, dan
+             adaptasi sekolah sebagai lembaga pendidikan direkonstruksi?</p>
+        </div>
+
+        <div class="focus">
+          <span class="focus-num">03</span>
+          <p><b>Representasi sekolah pinggiran.</b> Bagaimana sekolah pinggiran beradaptasi
+             dari masa perintisan, krisis ekonomi nasional, hingga era transformasi digital?</p>
+        </div>
+
+        <div class="focus">
+          <span class="focus-num">04</span>
+          <p><b>Kesenjangan harapan dan lapangan.</b> Apa saja permasalahan yang muncul
+             dalam pelaksanaan program unggulan di SMAN 1 Prambon?</p>
+        </div>
+      </div>
+
+      <div class="note fade-up">
+        Salah satu objek studi yang menarik perhatian di Kabupaten Nganjuk, Jawa Timur,
+        adalah SMA Negeri 1 Prambon. Sekolah ini merepresentasikan bagaimana lembaga
+        pendidikan pinggiran mampu beradaptasi sejak masa perintisan, melewati krisis
+        ekonomi nasional, hingga memasuki era transformasi digital modern.
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= FOOTER ================= -->
+  <footer>
+    <div class="wrap">
+      <div class="foot-grid">
+        <div>
+          <h3 class="foot-title">SMA Negeri 1 Prambon</h3>
+          <p class="foot-txt">
+            Lembaga pendidikan sekolah menengah atas negeri di Kabupaten Nganjuk,
+            Jawa Timur. Diresmikan pada 29 April 1994 oleh Gubernur Basofi Soedirman
+            atas kebijakan pendidikan Jawa Timur.
+          </p>
+        </div>
+
+        <div>
+          <p class="foot-head">Alamat</p>
+          <ul class="foot-list">
+            <li>Jl. Ahmad Yani No. 1</li>
+            <li>Desa Sugihwaras</li>
+            <li>Kecamatan Prambon</li>
+            <li>Kabupaten Nganjuk</li>
+            <li>Jawa Timur, Indonesia</li>
+          </ul>
+        </div>
+
+        <div>
+          <p class="foot-head">Sorotan</p>
+          <ul class="foot-list">
+            <li>Akreditasi A</li>
+            <li>Kurikulum Merdeka</li>
+            <li>Sekolah Adiwiyata</li>
+            <li>Sekolah Ramah Anak</li>
+            <li>Kelas Tahfidz &amp; Majelis Ta'lim</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="foot-bottom">
+        <span>© <span id="year">2026</span> LucidSc1pt</span>
+        <span>Profil &amp; kajian sejarah lokal</span>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  /* ---------- Bintang latar ---------- */
+  var sky = document.getElementById("sky");
+
+  function spawnTwinkles(count) {
+    var frag = document.createDocumentFragment();
+    for (var i = 0; i < count; i++) {
+      var s = document.createElement("span");
+      var size = (Math.random() * 2 + 1).toFixed(2);
+      s.className = "twinkle";
+      s.style.width = size + "px";
+      s.style.height = size + "px";
+      s.style.left = (Math.random() * 100).toFixed(2) + "%";
+      s.style.top = (Math.random() * 100).toFixed(2) + "%";
+      s.style.animationDelay = (Math.random() * 3).toFixed(2) + "s";
+      s.style.opacity = (Math.random() * 0.5 + 0.1).toFixed(2);
+      frag.appendChild(s);
+    }
+    sky.appendChild(frag);
+  }
+
+  function spawnShooting(count) {
+    for (var i = 0; i < count; i++) {
+      var b = document.createElement("span");
+      b.className = "shooting";
+      b.style.left = (55 + Math.random() * 45).toFixed(2) + "%";
+      b.style.top = (Math.random() * 45).toFixed(2) + "%";
+      b.style.animationDelay = (Math.random() * 9).toFixed(2) + "s";
+      b.style.animationDuration = (6 + Math.random() * 4).toFixed(2) + "s";
+      sky.appendChild(b);
+    }
+  }
+
+  spawnTwinkles(70);
+  spawnShooting(4);
+
+  /* ---------- Animasi masuk saat di-scroll ---------- */
+  var items = document.querySelectorAll(".fade-up");
+
+  if ("IntersectionObserver" in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("in");
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: "0px 0px -60px 0px" });
+
+    items.forEach(function (el) { io.observe(el); });
+  } else {
+    items.forEach(function (el) { el.classList.add("in"); });
+  }
+
+  /* ---------- Tahun footer ---------- */
+  var y = document.getElementById("year");
+  if (y) y.textContent = new Date().getFullYear();
+})();
+</script>
+
+</body>
+</html>
